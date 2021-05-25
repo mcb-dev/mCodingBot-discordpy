@@ -32,6 +32,14 @@ class Bot(commands.Bot):
                 self.load_extension(f"app.cogs.{filename[:-3]}")
         self.load_extension("jishaku")
 
+    def embed(self, **kwargs):
+        _embed = discord.Embed(**kwargs)
+
+        return _embed.set_footer(
+            text=f'{self.user.name} - {self.command_prefix}help for more information',
+            icon_url=self.user.avatar_url
+        )
+
     def run(self):
         return super().run(os.getenv("TOKEN"))
 
