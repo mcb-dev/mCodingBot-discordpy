@@ -18,7 +18,10 @@ INTENTS.members = True
 class Bot(commands.Bot):
 
     def __init__(self):
-        print(f"\n-> Starting Bot on Python {platform.python_version()}, discord.py {discord.__version__}\n")
+        print(
+            f"\n-> Starting Bot on Python {platform.python_version()}, "
+            f"discord.py {discord.__version__}\n"
+        )
         self.log_format = r"%d/%b/%Y:%H:%M:%S"
         self.theme = 0x0B7CD3
 
@@ -26,7 +29,9 @@ class Bot(commands.Bot):
             command_prefix="!",
             intents=INTENTS,
             help_command=prettyhelp.PrettyHelp(
-                color=discord.Color(self.theme), show_index=False,
+                color=discord.Color(self.theme),
+                show_index=False,
+                command_attrs={"hidden": True},
             ),
             owner_ids=(812699388815605791, 321733774414970882)
         )
