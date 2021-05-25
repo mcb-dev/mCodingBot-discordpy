@@ -33,7 +33,7 @@ class Bot(commands.Bot):
         self.load_extension("jishaku")
 
     def embed(self, **kwargs):
-        _embed = discord.Embed(**kwargs)
+        _embed = discord.Embed(**kwargs, color=self.theme)
 
         return _embed.set_footer(
             text=f'{self.user.name} - {self.command_prefix}help for more information',
