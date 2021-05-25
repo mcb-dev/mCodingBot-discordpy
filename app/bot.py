@@ -1,10 +1,9 @@
 import os
-import platform
 import time
 from datetime import datetime
 
 import discord
-from discord.ext import commands
+from discord.ext import commands, prettyhelp
 from dotenv import load_dotenv
 
 from config import MCODING_SERVER
@@ -16,15 +15,15 @@ INTENTS.members = True
 
 
 class Bot(commands.Bot):
-
     def __init__(self):
-        super(Bot, self).__init__(
-            command_prefix="!" * (platform.system() == "Windows") + "!",
-            intents=INTENTS,
-        )
-
-        self.remove_command('help')
         self.log_format = r"%d/%b/%Y:%H:%M:%S"
+        self.theme = 0x0B7CD3
+
+        super(Bot, self).__init__(
+            command_prefix="!",
+            intents=INTENTS,
+            help_command=prettyhelp.PrettyHelp(color=self.theme, show_index=False),
+        )
 
         for filename in os.listdir(os.path.join("app", "cogs")):
             if filename.endswith('py'):
