@@ -30,7 +30,6 @@ class Bot(commands.Bot):
             intents=INTENTS,
             help_command=prettyhelp.PrettyHelp(
                 color=discord.Color(self.theme),
-                show_index=False,
                 command_attrs={"hidden": True},
             ),
             owner_ids=(812699388815605791, 321733774414970882)
