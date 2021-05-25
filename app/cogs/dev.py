@@ -12,7 +12,7 @@ class Dev(commands.Cog):
     @commands.command(
         name="panel",
         aliases=('pan',),
-        brief="Some data about the panel"
+        help="Some data about the panel"
     )
     @commands.cooldown(2, 60, commands.BucketType.user)
     async def panel_stats(self, ctx):
