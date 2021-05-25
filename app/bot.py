@@ -4,6 +4,8 @@ import discord
 from discord.ext import commands
 from dotenv import load_dotenv
 
+from config import MCODING_SERVER
+
 load_dotenv()
 
 EXTENSIONS = [
@@ -29,7 +31,7 @@ class Bot(commands.Bot):
             return
         if not message.guild:
             return
-        if message.guild.id != self.get_cog("DonorRole").mcoding_server_id:
+        if message.guild.id != MCODING_SERVER:
             return
         await self.process_commands(message)
 
