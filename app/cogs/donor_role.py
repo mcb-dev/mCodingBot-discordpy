@@ -32,7 +32,7 @@ class DonorRole(commands.Cog):
     async def on_member_update(
         self, before: discord.Member, after: discord.Member
     ):
-        if before.guild.id != self.mcoding_server_id:
+        if before.guild.id != MCODING_SERVER:
             return
 
         await self.set_objects_from_ids()

@@ -11,11 +11,16 @@ load_dotenv()
 EXTENSIONS = [
     "app.cogs.donor_role"
 ]
+INTENTS = discord.Intents.default()
+INTENTS.members = True
 
 
 class Bot(commands.Bot):
     def __init__(self):
-        super().__init__(command_prefix="!")
+        super().__init__(
+            command_prefix="!",
+            intents=INTENTS,
+        )
 
         for ext in EXTENSIONS:
             self.load_extension(ext)
