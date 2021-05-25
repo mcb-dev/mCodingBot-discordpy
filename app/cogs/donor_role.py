@@ -13,20 +13,27 @@ class DonorRole(commands.Cog):
     def __init__(self, bot: "Bot"):
         self.bot = bot
 
-        self.donor_role: Optional[discord.Role] = None
-        self.patron_role: Optional[discord.Role] = None
-        self.mcoding_server: Optional[discord.Guild] = None
+        self._donor_role: Optional[discord.Role] = None
+        self._patron_role: Optional[discord.Role] = None
+        self._mcoding_server: Optional[discord.Guild] = None
 
-    async def set_objects_from_ids(self):
-        if not self.bot.is_ready():
-            await self.bot.wait_until_ready()
+    @property
+    def mcoding_server(self):
+        if self._mcoding_server is None:
+            self._mcoding_server = self.bot.get_guild(MCODING_SERVER)
+        return self._mcoding_server
 
-        if self.mcoding_server is None:
-            self.mcoding_server = self.bot.get_guild(MCODING_SERVER)
-        if self.donor_role is None:
-            self.donor_role = self.mcoding_server.get_role(DONOR_ROLE)
-        if self.patron_role is None:
-            self.patron_role = self.mcoding_server.get_role(PATRON_ROLE)
+    @property
+    def donor_role(self):
+        if self._donor_role is None:
+            self._donor_role = self.mcoding_server.get_role(DONOR_ROLE)
+        return self._donor_role
+
+    @property
+    def patron_role(self):
+        if self._patron_role is None:
+            self._patron_role = self.mcoding_server.get_role(PATRON_ROLE)
+        return self._patron_role
 
     @commands.Cog.listener()
     async def on_member_update(
@@ -34,8 +41,6 @@ class DonorRole(commands.Cog):
     ):
         if before.guild.id != MCODING_SERVER:
             return
-
-        await self.set_objects_from_ids()
 
         if len(before.roles) < len(after.roles):  # they received a role
             added_roles = [r for r in after.roles if r not in before.roles]
