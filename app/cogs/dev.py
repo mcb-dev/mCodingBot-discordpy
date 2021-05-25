@@ -6,8 +6,8 @@ class Dev(commands.Cog):
     """ Admin & Test features """
     hidden: bool = False
 
-    def __init__(self, client):
-        self.client = client
+    def __init__(self, bot):
+        self.bot = bot
 
     @commands.command(
         name="panel",
@@ -19,7 +19,7 @@ class Dev(commands.Cog):
         cols: tuple = ("blue", "green", "yellow", "orange", "red")
         mb: int = 1024 ** 2
 
-        _embed = self.client.embed(title='Bot Stats')
+        _embed = self.bot.embed(title='Bot Stats')
 
         vm = psutil.virtual_memory()
         percent: int = 100 * (vm.used / vm.total)
@@ -55,5 +55,5 @@ class Dev(commands.Cog):
         await ctx.send(embed=_embed)
 
 
-def setup(client):
-    client.add_cog(Dev(client))
+def setup(bot):
+    bot.add_cog(Dev(bot))
