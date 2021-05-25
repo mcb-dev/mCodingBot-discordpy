@@ -1,4 +1,5 @@
 import os
+import platform
 
 import discord
 from discord.ext import commands
@@ -15,8 +16,8 @@ INTENTS.members = True
 class Bot(commands.Bot):
 
     def __init__(self):
-        super().__init__(
-            command_prefix="!",
+        super(Bot, self).__init__(
+            command_prefix="!" * (platform.system() == "Windows") + "!",
             intents=INTENTS,
         )
 
