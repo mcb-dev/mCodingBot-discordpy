@@ -1,11 +1,13 @@
 import os
 import platform
+import time
+from datetime import datetime
 
 import discord
 from discord.ext import commands
 from dotenv import load_dotenv
 
-from config import MCODING_SERVER
+from config import MCODING_SERVER, LOG_FORMAT
 
 load_dotenv()
 
@@ -43,5 +45,12 @@ class Bot(commands.Bot):
 
         await self.process_commands(message)
 
+    async def on_connect(self):
+        self.log(f"Logged in as {self.user} after {time.perf_counter():,.3f}s")
+
     async def on_ready(self):
-        print(f"Logged in as {self.user}!")
+        self.log(f"Ready after {time.perf_counter():,.3f}s")
+
+    @staticmethod
+    def log(*args):
+        print(f"[{datetime.now().strftime(LOG_FORMAT)}]", *args)
