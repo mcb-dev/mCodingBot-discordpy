@@ -1,6 +1,9 @@
-<svg width="599" height="718" xmlns="http://www.w3.org/2000/svg">
-    <g transform="translate(-345 -50)">
-        <path d="M449.5 360.5C449.5 254.461 535.461 168.5 641.5 168.5 747.539 168.5 833.5 254.461 833.5 360.5 833.5 466.539 747.539 552.5 641.5 552.5 535.461 552.5 449.5 466.539 449.5 360.5Z" fill="#0B7CD3"/>
-        <text fill="#FFFFFF" font-family="Consolas,Consolas_MSFontService,sans-serif" font-weight="400" font-size="341" transform="translate(550.637 475)">b</text>
+<svg width="498" height="598" xmlns="http://www.w3.org/2000/svg">
+    <g transform="translate(-393 -104)">
+        <path d="M450 361C450 254.961 535.961 169 642 169 748.039 169 834 254.961 834 361 834 467.039 748.039 553 642 553 535.961 553 450 467.039 450 361Z"
+              fill="#0B7CD3"/>
+        <text fill="#FFFFFF" font-family="Consolas,Consolas_MSFontService,sans-serif" font-weight="400" font-size="284"
+              transform="translate(563.799 458)">b
+        </text>
     </g>
 </svg>
