@@ -12,10 +12,7 @@ class Information(commands.Cog):
     def __init__(self, bot: "Bot"):
         self.bot = bot
 
-    @commands.command(
-        name="links",
-        help="Useful links."
-    )
+    @commands.command(name="links", help="Useful links.")
     async def links(self, ctx: commands.Context):
         embed = self.bot.embed(
             title="Useful Links",

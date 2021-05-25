@@ -16,7 +16,6 @@ INTENTS.members = True
 
 
 class Bot(commands.Bot):
-
     def __init__(self):
         print(
             f"\n-> Starting Bot on Python {platform.python_version()}, "
@@ -32,11 +31,11 @@ class Bot(commands.Bot):
                 color=discord.Color(self.theme),
                 command_attrs={"hidden": True},
             ),
-            owner_ids=(812699388815605791, 321733774414970882)
+            owner_ids=(812699388815605791, 321733774414970882),
         )
 
         for filename in os.listdir(os.path.join("app", "cogs")):
-            if filename.endswith('py'):
+            if filename.endswith("py"):
                 self.load_extension(f"app.cogs.{filename[:-3]}")
         self.load_extension("jishaku")
 
@@ -48,7 +47,7 @@ class Bot(commands.Bot):
                 f"{self.user.name} - {self.command_prefix}help for "
                 "more information"
             ),
-            icon_url=self.user.avatar_url
+            icon_url=self.user.avatar_url,
         )
 
     def run(self):
