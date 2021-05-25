@@ -7,7 +7,7 @@ import discord
 from discord.ext import commands
 from dotenv import load_dotenv
 
-from config import MCODING_SERVER, LOG_FORMAT
+from config import MCODING_SERVER
 
 load_dotenv()
 
@@ -22,6 +22,8 @@ class Bot(commands.Bot):
             command_prefix="!" * (platform.system() == "Windows") + "!",
             intents=INTENTS,
         )
+
+        self.log_format = r"%d/%b/%Y:%H:%M:%S"
 
         for filename in os.listdir(os.path.join("app", "cogs")):
             if filename.endswith('py'):
@@ -51,6 +53,5 @@ class Bot(commands.Bot):
     async def on_ready(self):
         self.log(f"Ready after {time.perf_counter():,.3f}s")
 
-    @staticmethod
-    def log(*args):
-        print(f"[{datetime.now().strftime(LOG_FORMAT)}]", *args)
+    def log(self, *args):
+        print(f"[{datetime.now().strftime(self.log_format)}]", *args)
