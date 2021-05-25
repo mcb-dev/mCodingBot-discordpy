@@ -1,11 +1,16 @@
+from typing import TYPE_CHECKING
+
 import psutil
 from discord.ext import commands
+
+if TYPE_CHECKING:
+    from app.bot import Bot
 
 
 class Dev(commands.Cog):
     """ Admin & Test features """
 
-    def __init__(self, bot):
+    def __init__(self, bot: "Bot"):
         self.bot = bot
 
     @commands.command(
@@ -54,5 +59,5 @@ class Dev(commands.Cog):
         await ctx.send(embed=_embed)
 
 
-def setup(bot):
+def setup(bot: "Bot"):
     bot.add_cog(Dev(bot))
