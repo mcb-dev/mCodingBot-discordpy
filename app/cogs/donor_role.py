@@ -1,9 +1,8 @@
 from typing import TYPE_CHECKING, Optional
 
 import discord
-from discord.ext import commands
-
 from config import DONOR_ROLE, MCODING_SERVER, PATRON_ROLE
+from discord.ext import commands
 
 if TYPE_CHECKING:
     from app.bot import Bot

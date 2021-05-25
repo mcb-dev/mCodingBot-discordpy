@@ -4,10 +4,9 @@ import time
 from datetime import datetime
 
 import discord
+from config import MCODING_SERVER
 from discord.ext import commands, prettyhelp
 from dotenv import load_dotenv
-
-from config import MCODING_SERVER
 
 load_dotenv()
 
