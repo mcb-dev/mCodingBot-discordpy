@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="384" height="384">
   <g transform="translate(-450,-169)">
     <path d="m 450,361 c 0,-106.039 85.961,-192 192,-192 106.039,0 192,85.961 192,192 0,106.039 -85.961,192 -192,192 -106.039,0 -192,-85.961 -192,-192 z" fill="#0b7cd3"/>
-    <text fill="#ffffff" font-family="Consolas, Consolas_MSFontService, sans-serif" font-weight="400" font-size="284px" transform="translate(563.799,458)">b</text>
+    <text fill="#ffffff" font-family="Consolas, Consolas_MSFontService, sans-serif" font-weight="800" font-size="284px" transform="translate(563.799,458)">b</text>
   </g>
 </svg>
