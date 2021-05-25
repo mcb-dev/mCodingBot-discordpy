@@ -4,7 +4,6 @@ from discord.ext import commands
 
 class Dev(commands.Cog):
     """ Admin & Test features """
-    hidden: bool = False
 
     def __init__(self, bot):
         self.bot = bot
