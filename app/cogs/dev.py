@@ -36,7 +36,8 @@ class Dev(commands.Cog):
             name=f":{cols[int(cpu_percent // 20)]}_square: __CPU__",
             value='\n'.join((
                 f"> `{cpu_percent:.3f}`**%**",
-                f"- `{cpu_freq.current / 1000:.1f}`/`{cpu_freq.max / 1000:.1f}` **Ghz**"
+                f"- `{cpu_freq.current / 1000:.1f}`/`{cpu_freq.max / 1000:.1f}`"
+                " **Ghz**"
             ))
         )
 
