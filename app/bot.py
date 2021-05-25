@@ -23,6 +23,7 @@ class Bot(commands.Bot):
             intents=INTENTS,
         )
 
+        self.remove_command('help')
         self.log_format = r"%d/%b/%Y:%H:%M:%S"
 
         for filename in os.listdir(os.path.join("app", "cogs")):
