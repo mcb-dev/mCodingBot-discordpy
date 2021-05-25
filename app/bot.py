@@ -22,7 +22,9 @@ class Bot(commands.Bot):
         super(Bot, self).__init__(
             command_prefix="!",
             intents=INTENTS,
-            help_command=prettyhelp.PrettyHelp(color=self.theme, show_index=False),
+            help_command=prettyhelp.PrettyHelp(
+                color=self.theme, show_index=False,
+            ),
         )
 
         for filename in os.listdir(os.path.join("app", "cogs")):
