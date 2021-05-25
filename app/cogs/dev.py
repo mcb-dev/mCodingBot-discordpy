@@ -34,11 +34,12 @@ class Dev(commands.Cog):
         cpu_freq, cpu_percent = psutil.cpu_freq(), psutil.cpu_percent()
         _embed.add_field(
             name=f":{cols[int(cpu_percent // 20)]}_square: __CPU__",
-            value='\n'.join((
-                f"> `{cpu_percent:.3f}`**%**",
-                f"- `{cpu_freq.current / 1000:.1f}`/`{cpu_freq.max / 1000:.1f}`"
+            value=(
+                f"> `{cpu_percent:.3f}`**%**\n"
+                f"- `{cpu_freq.current / 1000:.1f}`/"
+                f"`{cpu_freq.max / 1000:.1f}`"
                 " **Ghz**"
-            ))
+            )
         )
 
         disk = psutil.disk_usage('.')
