@@ -11,8 +11,7 @@ from config import MCODING_SERVER
 
 load_dotenv()
 
-INTENTS = discord.Intents.default()
-INTENTS.members = True
+INTENTS = discord.Intents.all()
 
 
 class Bot(commands.Bot):
