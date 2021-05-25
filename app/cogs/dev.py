@@ -19,6 +19,7 @@ class Dev(commands.Cog):
         help="Some data about the panel"
     )
     @commands.cooldown(2, 60, commands.BucketType.user)
+    @commands.is_owner()
     async def panel_stats(self, ctx):
         cols: tuple = ("blue", "green", "yellow", "orange", "red")
         mb: int = 1024 ** 2
