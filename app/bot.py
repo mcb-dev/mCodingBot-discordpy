@@ -51,6 +51,13 @@ class Bot(commands.Bot):
         )
 
     def run(self):
+        print(
+            "       _____       _ _            _____     _",
+            " _____|     |___ _| |_|___ ___   | __  |___| |_",
+            "|     |   --| . | . | |   | . |  | __ -| . |  _|",
+            "|_|_|_|_____|___|___|_|_|_|_  |  |_____|___|_|",
+            "                          |___|""", sep='\n'
+        )
         return super().run(os.getenv("TOKEN"))
 
     async def on_command_error(self, ctx: commands.Context, error: Exception):
