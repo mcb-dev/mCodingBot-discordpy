@@ -4,6 +4,8 @@ import discord
 from discord.ext import commands
 from dotenv import load_dotenv
 
+from config import MCODING_SERVER
+
 load_dotenv()
 
 INTENTS = discord.Intents.default()
@@ -18,10 +20,9 @@ class Bot(commands.Bot):
             intents=INTENTS,
         )
 
-        for filename in os.listdir("cogs"):
+        for filename in os.listdir(os.path.join("app", "cogs")):
             if filename.endswith('py'):
-                self.load_extension(f"cogs.{filename[:-3]}")
-                print('-', filename)
+                self.load_extension(f"app.cogs.{filename[:-3]}")
 
     def run(self):
         return super().run(os.getenv("TOKEN"))
@@ -36,7 +37,7 @@ class Bot(commands.Bot):
         if not message.guild:
             return
 
-        if message.guild.id != self.get_cog("DonorRole").mcoding_server_id:
+        if message.guild.id != MCODING_SERVER:
             return
 
         await self.process_commands(message)

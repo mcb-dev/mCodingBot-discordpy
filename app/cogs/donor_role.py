@@ -3,6 +3,8 @@ from typing import Optional, TYPE_CHECKING
 import discord
 from discord.ext import commands
 
+from config import MCODING_SERVER, DONOR_ROLE, PATRON_ROLE
+
 if TYPE_CHECKING:
     from app.bot import Bot
 
@@ -10,10 +12,6 @@ if TYPE_CHECKING:
 class DonorRole(commands.Cog):
     def __init__(self, bot: "Bot"):
         self.bot = bot
-
-        self.donor_role_id = 843135052036702218
-        self.patron_role_id = 846834281535504434
-        self.mcoding_server_id = 826875707418214451
 
         self.donor_role: Optional[discord.Role] = None
         self.patron_role: Optional[discord.Role] = None
@@ -24,13 +22,11 @@ class DonorRole(commands.Cog):
             await self.bot.wait_until_ready()
 
         if self.mcoding_server is None:
-            self.mcoding_server = self.bot.get_guild(self.mcoding_server_id)
+            self.mcoding_server = self.bot.get_guild(MCODING_SERVER)
         if self.donor_role is None:
-            self.donor_role = self.mcoding_server.get_role(self.donor_role_id)
+            self.donor_role = self.mcoding_server.get_role(DONOR_ROLE)
         if self.patron_role is None:
-            self.patron_role = self.mcoding_server.get_role(
-                self.patron_role_id
-            )
+            self.patron_role = self.mcoding_server.get_role(PATRON_ROLE)
 
     @commands.Cog.listener()
     async def on_member_update(
