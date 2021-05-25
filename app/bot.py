@@ -28,7 +28,7 @@ class Bot(commands.Bot):
         return super().run(os.getenv("TOKEN"))
 
     async def on_command_error(self, ctx: commands.Context, error: Exception):
-        await ctx.send(repr(error))
+        await ctx.send(str(error))
 
     async def on_message(self, message: discord.Message):
         if message.author.bot:
