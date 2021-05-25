@@ -122,6 +122,32 @@ class Information(commands.Cog):
 
         await ctx.send(embed=_embed)
 
+    @commands.command(
+        name='all',
+        aliases=('all_cmds', 'cmds'),
+        brief="List every command osf the bot"
+    )
+    @commands.cooldown(2, 60, commands.BucketType.user)
+    async def all_commands(self, ctx):
+        """ Provide a list of every command available command for the user,
+        split by extensions and organized in alphabetical order.
+        Will not show the event-only extensions """
+
+        _embed = self.bot.embed(
+            title='All commands',
+            description=f"> `{len(self.bot.commands)}` commands available"
+        )
+
+        for cog_name, cog in self.bot.cogs.items():
+            if len(cog.get_commands()):
+                _embed.add_field(
+                    name=cog_name.capitalize(),
+                    value='  •  '.join(sorted(f'`{c.name}`' for c in cog.get_commands())),
+                    inline=False
+                )
+
+        await ctx.send(embed=_embed)
+
 
 def setup(bot: "Bot"):
     bot.add_cog(Information(bot))
