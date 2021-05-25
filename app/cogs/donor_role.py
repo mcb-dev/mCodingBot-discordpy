@@ -42,10 +42,12 @@ class DonorRole(commands.Cog):
         if before.guild.id != MCODING_SERVER:
             return
 
-        if len(before.roles) < len(after.roles):  # they received a role
-            added_roles = [r for r in after.roles if r not in before.roles]
-            if self.patron_role in added_roles:
-                await after.add_roles(self.donor_role)
+        if len(before.roles) > len(after.roles):  # they received a role
+            return
+
+        added_roles = [r for r in after.roles if r not in before.roles]
+        if self.patron_role in added_roles:
+            await after.add_roles(self.donor_role)
 
 
 def setup(bot: "Bot"):
