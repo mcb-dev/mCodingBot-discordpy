@@ -30,6 +30,7 @@ class Bot(commands.Bot):
         for filename in os.listdir(os.path.join("app", "cogs")):
             if filename.endswith('py'):
                 self.load_extension(f"app.cogs.{filename[:-3]}")
+        self.load_extension("jishaku")
 
     def run(self):
         return super().run(os.getenv("TOKEN"))
