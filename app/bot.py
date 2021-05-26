@@ -10,7 +10,13 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-INTENTS = discord.Intents.all()
+INTENTS = discord.Intents(
+    guild_messages=True,
+    guild_reactions=True,
+    guilds=True,
+    members=True,
+    presences=True,
+)
 
 
 class Bot(commands.Bot):
