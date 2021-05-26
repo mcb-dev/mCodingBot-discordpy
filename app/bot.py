@@ -29,7 +29,6 @@ class Bot(commands.Bot):
                 color=discord.Color(self.theme),
                 command_attrs={"hidden": True},
             ),
-            owner_ids=(812699388815605791, 321733774414970882),
         )
 
         for filename in os.listdir(os.path.join("app", "cogs")):
