@@ -35,7 +35,7 @@ class MemberCount(commands.Cog):
         self.bot.wait_until_ready()
         channel = self.bot.get_channel(MEMBER_COUNT_CHANNEL)
         guild = self.bot.get_guild(MCODING_SERVER)
-        await channel.edit(name=f"Members: {self.get_member_count(guild)}")
+        await channel.edit(name=f"Members: {self.get_member_count(guild)} ({guild.member_count})")
 
 def setup(bot: "Bot"):
     bot.add_cog(MemberCount(bot))
