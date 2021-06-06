@@ -11,6 +11,7 @@ if TYPE_CHECKING:
 class MemberCount(commands.Cog):
     def __init__(self, bot: "Bot"):
         self.bot = bot
+        self.update_member_count.start()
 
     def get_member_count(self, guild):
         superscript = {
