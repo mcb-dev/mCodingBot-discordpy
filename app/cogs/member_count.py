@@ -36,4 +36,4 @@ class MemberCount(commands.Cog):
         await channel.edit(name=f"Members: {self.get_member_count(guild)}")
 
 def setup(bot: "Bot"):
-    client.add_cog(MemberCount(bot))
+    bot.add_cog(MemberCount(bot))
