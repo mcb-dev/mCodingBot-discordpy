@@ -17,7 +17,7 @@ class Config:
 
         def intornone(key: str) -> Union[int, None]:
             try:
-                return int(env.pop(key))
+                return int(env.pop(key, None))
             except TypeError:
                 return None
 
