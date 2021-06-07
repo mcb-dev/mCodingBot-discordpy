@@ -88,7 +88,7 @@ class Bot(commands.Bot):
 
         return _embed.set_footer(
             text=(
-                f"{self.user.name} - {self.command_prefix}help for "
+                f"{self.user.name} - m!help for "
                 "more information"
             ),
             icon_url=self.user.avatar_url,
