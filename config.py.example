@@ -1,0 +1,6 @@
+MCODING_SERVER = -1  # the id of the mcoding server
+DONOR_ROLE = -1  # the id of the donor role
+PATRON_ROLE = -1  # the id of the patron role
+MEMBER_COUNT_CHANNEL = -1  # the id of the member count channel
+
+LOG_FORMAT = '%d/%b/%Y:%H:%M:%S'
