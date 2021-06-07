@@ -26,7 +26,7 @@ class Information(commands.Cog):
     @commands.command(
         name="ping", aliases=("latency", "lat", "ms"), brief="Pong !"
     )
-    @commands.cooldown(2, 60, commands.BucketType.user)
+    @commands.cooldown(2, 5, commands.BucketType.user)
     async def ping(self, ctx):
         """Get the latency of the client converted in milliseconds.
         An dynamically colored ball will show in the image in function of
@@ -39,7 +39,7 @@ class Information(commands.Cog):
 
         _embed = self.bot.embed(
             title=f"{ctx.author.name} Ponged !",
-            description="The bot, bd & API latency",
+            description="The bot and API latency",
         )
 
         for k, v in latencies.items():
