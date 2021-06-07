@@ -104,8 +104,8 @@ class Information(commands.Cog):
             title=f"{self.bot.user.name} Bot Information",
             description="\n".join(
                 (
-                    "This bot have been created, coded and is owned by "
-                    "Circuit#5585 and Sigmanificient#3301",
+                    "This bot was created by Circuit#5585, Sigmanificient#330,"
+                    " and trag1c#3879.",
                     self.bot.user.created_at.strftime(
                         "> **Creation date** : %A %d %B %Y at %H:%M"
                     ),
