@@ -15,7 +15,6 @@ class Config:
                 return None
 
         self.token = env.pop("TOKEN")
-        self.log_format = env.pop("LOG_FORMAT")
 
         self.mcoding_server_id = intornone("MCODING_SERVER")
         self.member_count_channel_id = intornone("MEMBER_COUNT_CHANNEL")
