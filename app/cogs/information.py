@@ -29,8 +29,8 @@ class Information(commands.Cog):
     @commands.cooldown(2, 60, commands.BucketType.user)
     async def ping(self, ctx):
         """Get the latency of the client converted in milliseconds.
-        An dynamically colored ball will show in the image in function of the ping.
-        Give also worst, best and daily average ping"""
+        An dynamically colored ball will show in the image in function of
+        the ping. Give also worst, best and daily average ping"""
         latencies: dict = {"API": self.bot.latency}
 
         marker: float = perf_counter()
@@ -82,7 +82,7 @@ class Information(commands.Cog):
             embed.add_field(name=f"> {name}", value=f"`{value}`")
 
         if user.activity is not None:
-            embed.add_field(name=f"> Activity", value=user.activity.name)
+            embed.add_field(name="> Activity", value=user.activity.name)
 
         if len(user.roles) < 50:
             roles = ", ".join([f"{role.name}" for role in user.roles[:0:-1]])
@@ -104,7 +104,8 @@ class Information(commands.Cog):
             title=f"{self.bot.user.name} Bot Information",
             description="\n".join(
                 (
-                    "This bot have been created, coded and is owned by Circuit#5585 and Sigmanificient#3301",
+                    "This bot have been created, coded and is owned by "
+                    "Circuit#5585 and Sigmanificient#3301",
                     self.bot.user.created_at.strftime(
                         "> **Creation date** : %A %d %B %Y at %H:%M"
                     ),

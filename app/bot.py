@@ -2,6 +2,7 @@ import os
 import platform
 import time
 from datetime import datetime
+from typing import Optional
 
 import discord
 from discord.ext import commands, prettyhelp
@@ -35,12 +36,52 @@ class Bot(commands.Bot):
             ),
         )
 
-        self.config = Config.load(self)
+        self.config = Config.load()
 
         for filename in os.listdir(os.path.join("app", "cogs")):
             if filename.endswith("py"):
                 self.load_extension(f"app.cogs.{filename[:-3]}")
         self.load_extension("jishaku")
+
+    @property
+    def mcoding_server(self) -> Optional[discord.Guild]:
+        try:
+            return self._mcoding_server
+        except AttributeError:
+            self._mcoding_server = self.get_guild(
+                self.config.mcoding_server_id
+            )
+            return self._mcoding_server
+
+    @property
+    def member_count_channel(self) -> Optional[discord.VoiceChannel]:
+        try:
+            return self._member_count_channel
+        except AttributeError:
+            self._member_count_channel = self.mcoding_server.get_channel(
+                self.config.member_count_channel_id
+            )
+            return self._member_count_channel
+
+    @property
+    def donor_role(self) -> Optional[discord.Role]:
+        try:
+            return self._donor_role
+        except AttributeError:
+            self._donor_role = self.mcoding_server.get_role(
+                self.config.donor_role_id
+            )
+            return self._donor_role
+
+    @property
+    def patron_role(self) -> Optional[discord.Role]:
+        try:
+            return self._patron_role
+        except AttributeError:
+            self._patron_role = self.mcoding_server.get_role(
+                self.config.patron_role_id
+            )
+            return self._patron_role
 
     def embed(self, **kwargs):
         _embed = discord.Embed(**kwargs, color=self.theme)
@@ -74,7 +115,7 @@ class Bot(commands.Bot):
         if not message.guild:
             return
 
-        if message.guild.id != self.config.mcoding_server.id:
+        if message.guild.id != self.config.mcoding_server_id:
             return
 
         await self.process_commands(message)
