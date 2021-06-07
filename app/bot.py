@@ -28,7 +28,7 @@ class Bot(commands.Bot):
         self.theme = 0x0B7CD3
 
         super(Bot, self).__init__(
-            command_prefix="!",
+            command_prefix=commands.when_mentioned_or("m!"),
             intents=INTENTS,
             help_command=prettyhelp.PrettyHelp(
                 color=discord.Color(self.theme),
