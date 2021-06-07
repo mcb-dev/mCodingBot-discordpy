@@ -4,11 +4,9 @@ import time
 from datetime import datetime
 
 import discord
-from config import MCODING_SERVER
 from discord.ext import commands, prettyhelp
-from dotenv import load_dotenv
 
-load_dotenv()
+from app.config import Config
 
 INTENTS = discord.Intents(
     guild_messages=True,
@@ -37,6 +35,8 @@ class Bot(commands.Bot):
             ),
         )
 
+        self.config = Config.load(self)
+
         for filename in os.listdir(os.path.join("app", "cogs")):
             if filename.endswith("py"):
                 self.load_extension(f"app.cogs.{filename[:-3]}")
@@ -62,7 +62,7 @@ class Bot(commands.Bot):
             "                          |___|" "",
             sep="\n",
         )
-        return super().run(os.getenv("TOKEN"))
+        return super().run(self.config.token)
 
     async def on_command_error(self, ctx: commands.Context, error: Exception):
         await ctx.send(str(error))
@@ -74,7 +74,7 @@ class Bot(commands.Bot):
         if not message.guild:
             return
 
-        if message.guild.id != MCODING_SERVER:
+        if message.guild.id != self.config.mcoding_server.id:
             return
 
         await self.process_commands(message)
