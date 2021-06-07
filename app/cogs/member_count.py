@@ -1,7 +1,6 @@
 from typing import TYPE_CHECKING
 from math import log
 
-from config import MEMBER_COUNT_CHANNEL, MCODING_SERVER
 from discord.ext import commands, tasks
 
 if TYPE_CHECKING:
@@ -11,7 +10,7 @@ if TYPE_CHECKING:
 class MemberCount(commands.Cog):
     def __init__(self, bot: "Bot"):
         self.bot = bot
-        if MEMBER_COUNT_CHANNEL is not None:
+        if self.bot.config.member_count_channel_id is not None:
             self.update_member_count.start()
 
     def get_member_count(self, guild):
@@ -24,10 +23,10 @@ class MemberCount(commands.Cog):
     @tasks.loop(minutes=10)
     async def update_member_count(self):
         await self.bot.wait_until_ready()
-        channel = self.bot.get_channel(MEMBER_COUNT_CHANNEL)
-        guild = self.bot.get_guild(MCODING_SERVER)
-        await channel.edit(name=(
-            f"Members: {self.get_member_count(guild)} ({guild.member_count})"
+        g = self.bot.config.mcoding_server
+        await self.bot.config.member_count_channel.edit(name=(
+            f"Members: {self.get_member_count(g)} "
+            f"({g.member_count})"
         ))
 
 
