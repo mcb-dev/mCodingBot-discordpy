@@ -152,10 +152,9 @@ async def embed_message(
         message.reference.guild_id
     ):
         if message.reference.resolved is None:
-            ref_message = await bot.cache.fetch_message(
-                message.reference.guild_id,
-                message.reference.channel_id,
-                message.reference.message_id,
+            ref_message = await bot.fetch_message(
+                bot.get_channel(message.reference.channel_id),
+                message.reference.message_id
             )
             if ref_message is None:
                 ref_content = "*Message was deleted*"
@@ -272,11 +271,12 @@ async def update_message(
     if isinstance(channel, int):
         channel = bot.get_channel(channel)
     if isinstance(orig_message, int):
-        orig_message = await channel.fetch_message(orig_message)
+        orig_message = await bot.fetch_message(channel, orig_message)
 
     starboard = bot.starboard_channel
     if isinstance(starboard_message, int):
-        starboard_message = await starboard.fetch_message(
+        starboard_message = await bot.fetch_message(
+            starboard,
             starboard_message
         )
     elif starboard_message is MISSING:
@@ -286,7 +286,8 @@ async def update_message(
             (orig_message.id,)
         )
         if sql_orig and sql_orig["starboard_message_id"]:
-            starboard_message = await starboard.fetch_message(
+            starboard_message = await bot.fetch_message(
+                starboard,
                 int(sql_orig["starboard_message_id"])
             )
         else:
@@ -366,7 +367,8 @@ class StarboardEvents(commands.Cog):
 
         # TODO: cache messages
         try:
-            act_message: discord.Message = await channel.fetch_message(
+            act_message: discord.Message = await self.bot.fetch_message(
+                channel,
                 payload.message_id
             )
         except discord.NotFound:
@@ -387,7 +389,9 @@ class StarboardEvents(commands.Cog):
         if int(sql_message["id"]) != act_message.id:
             channel = self.bot.get_channel(int(sql_message["channel_id"]))
             try:
-                message = await channel.fetch_message(int(sql_message["id"]))
+                message = await self.bot.fetch_message(
+                    channel, int(sql_message["id"])
+                )
             except discord.NotFound:
                 return
         else:

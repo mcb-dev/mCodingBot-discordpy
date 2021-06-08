@@ -6,6 +6,7 @@ from datetime import datetime
 from typing import Optional
 
 import discord
+from aiocache import cached
 from discord.ext import commands, prettyhelp
 
 from app.config import Config
@@ -94,6 +95,15 @@ class Bot(commands.Bot):
                 self.config.starboard_channel_id
             )
             return self._starboard_channel
+
+    @cached(ttl=10)
+    async def fetch_message(
+        self, channel: discord.TextChannel, message_id: int
+    ) -> discord.Message:
+        try:
+            return await channel.fetch_message(message_id)
+        except discord.NotFound:
+            return None
 
     def embed(self, **kwargs):
         _embed = discord.Embed(**kwargs, color=self.theme)
