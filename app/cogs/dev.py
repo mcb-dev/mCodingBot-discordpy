@@ -1,4 +1,3 @@
-from os import listdir
 from typing import TYPE_CHECKING
 
 import psutil
@@ -13,20 +12,6 @@ class Dev(commands.Cog):
 
     def __init__(self, bot: "Bot"):
         self.bot = bot
-
-        self.files = {}
-
-        folders = (".", "app", "app/cogs")
-        for file, path in {
-            _f: path
-            for path in folders
-            for _f in listdir(path)
-            if _f.endswith(".py")
-        }.items():
-            with open(f"{path}/{file}", encoding="utf-8") as f:
-                self.files[file] = f.read()
-
-        self.files["Total"] = "\n".join(self.files.values())
 
     @commands.command(
         name="panel", aliases=("pan",), help="Some data about the panel"

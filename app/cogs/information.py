@@ -1,3 +1,4 @@
+from os import listdir
 from platform import python_version
 from time import perf_counter
 from typing import TYPE_CHECKING
@@ -14,6 +15,19 @@ class Information(commands.Cog):
 
     def __init__(self, bot: "Bot"):
         self.bot = bot
+
+        self.files = {}
+        folders = (".", "app", "app/cogs")
+        for file, path in {
+            _f: path
+            for path in folders
+            for _f in listdir(path)
+            if _f.endswith(".py")
+        }.items():
+            with open(f"{path}/{file}", encoding="utf-8") as f:
+                self.files[file] = f.read()
+
+        self.files["Total"] = "\n".join(self.files.values())
 
     @commands.command(name="links", help="Useful links.")
     async def links(self, ctx: commands.Context):
