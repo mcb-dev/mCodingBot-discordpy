@@ -326,11 +326,6 @@ async def update_message(
             await msg.add_reaction("⭐")
 
 
-class StarboardCommands(commands.Cog, name="Starboard"):
-    def __init__(self, bot: "Bot"):
-        self.bot = bot
-
-
 class StarboardEvents(commands.Cog):
     def __init__(self, bot: "Bot"):
         self.bot = bot
@@ -443,5 +438,4 @@ class StarboardEvents(commands.Cog):
 
 
 def setup(bot: "Bot"):
-    bot.add_cog(StarboardCommands(bot))
     bot.add_cog(StarboardEvents(bot))
