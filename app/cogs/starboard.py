@@ -274,8 +274,6 @@ async def update_message(
     if isinstance(orig_message, int):
         orig_message = await channel.fetch_message(orig_message)
 
-    print(orig_message.id)
-
     starboard = bot.starboard_channel
     if isinstance(starboard_message, int):
         starboard_message = await starboard.fetch_message(
