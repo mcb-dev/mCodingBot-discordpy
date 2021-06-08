@@ -85,6 +85,16 @@ class Bot(commands.Bot):
             )
             return self._patron_role
 
+    @property
+    def starboard_channel(self) -> Optional[discord.TextChannel]:
+        try:
+            return self._starboard_channel
+        except AttributeError:
+            self._starboard_channel = self.mcoding_server.get_channel(
+                self.config.starboard_channel_id
+            )
+            return self._starboard_channel
+
     def embed(self, **kwargs):
         _embed = discord.Embed(**kwargs, color=self.theme)
 
