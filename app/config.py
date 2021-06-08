@@ -17,9 +17,14 @@ class Config:
         self.token = env.pop("TOKEN")
 
         self.mcoding_server_id = intornone("MCODING_SERVER")
+
         self.member_count_channel_id = intornone("MEMBER_COUNT_CHANNEL")
+
         self.donor_role_id = intornone("DONOR_ROLE")
         self.patron_role_id = intornone("PATRON_ROLE")
+
+        self.starboard_channel_id = intornone("STARBOARD_CHANNEL")
+        self.starboard_limit = intornone("STARBOARD_LIMIT")
 
     @classmethod
     def load(cls: Type["Config"], file: str = ".env") -> "Config":

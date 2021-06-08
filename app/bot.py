@@ -1,3 +1,4 @@
+from app.database.database import Database
 import os
 import platform
 import time
@@ -5,6 +6,7 @@ from datetime import datetime
 from typing import Optional
 
 import discord
+from aiocache import cached
 from discord.ext import commands, prettyhelp
 
 from app.config import Config
@@ -37,6 +39,7 @@ class Bot(commands.Bot):
         )
 
         self.config = Config.load()
+        self.db = Database()
 
         for filename in os.listdir(os.path.join("app", "cogs")):
             if filename.endswith("py"):
@@ -83,6 +86,25 @@ class Bot(commands.Bot):
             )
             return self._patron_role
 
+    @property
+    def starboard_channel(self) -> Optional[discord.TextChannel]:
+        try:
+            return self._starboard_channel
+        except AttributeError:
+            self._starboard_channel = self.mcoding_server.get_channel(
+                self.config.starboard_channel_id
+            )
+            return self._starboard_channel
+
+    @cached(ttl=10)
+    async def fetch_message(
+        self, channel: discord.TextChannel, message_id: int
+    ) -> discord.Message:
+        try:
+            return await channel.fetch_message(message_id)
+        except discord.NotFound:
+            return None
+
     def embed(self, **kwargs):
         _embed = discord.Embed(**kwargs, color=self.theme)
 
@@ -104,6 +126,10 @@ class Bot(commands.Bot):
             sep="\n",
         )
         return super().run(self.config.token)
+
+    async def start(self, *args, **kwargs):
+        await self.db.init()
+        await super().start(*args, **kwargs)
 
     async def on_command_error(self, ctx: commands.Context, error: Exception):
         await ctx.send(str(error))
