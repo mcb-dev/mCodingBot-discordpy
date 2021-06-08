@@ -22,7 +22,8 @@ class MemberCount(commands.Cog):
 
     @tasks.loop(minutes=10)
     async def update_member_count(self):
-        await self.bot.wait_until_ready()
+        if not self.bot.is_ready():
+            await self.bot.wait_until_ready()
         g = self.bot.mcoding_server
         await self.bot.member_count_channel.edit(name=(
             f"Members: {self.get_member_count(g)} "
