@@ -11,7 +11,7 @@ if TYPE_CHECKING:
 
 
 def plain_text(message: discord.Message, points: int) -> str:
-    return f"**{points}** | {message.channel.mention}"
+    return f":star: **{points}** | {message.channel.mention}"
 
 
 async def embed_message(
