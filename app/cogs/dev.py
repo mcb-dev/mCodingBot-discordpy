@@ -29,31 +29,6 @@ class Dev(commands.Cog):
         self.files["Total"] = "\n".join(self.files.values())
 
     @commands.command(
-        name="code",
-        help="Provide the code info",
-    )
-    @commands.is_owner()
-    async def get_code(self, ctx):
-        code_embed = self.bot.embed(
-            title="Code Structure",
-            description=(
-                f"This is the whole code structure of {self.bot.user.name}!"
-            ),
-        )
-
-        items = ("characters", "lines")
-        for file_name, file in self.files.items():
-            code_embed.add_field(
-                name=f"> {file_name}",
-                value="\n".join(
-                    f"- `{len(f):,}` {t}"
-                    for f, t in zip((file, file.splitlines()), items)
-                ),
-            )
-
-        await ctx.send(embed=code_embed)
-
-    @commands.command(
         name="panel", aliases=("pan",), help="Some data about the panel"
     )
     @commands.cooldown(2, 60, commands.BucketType.user)

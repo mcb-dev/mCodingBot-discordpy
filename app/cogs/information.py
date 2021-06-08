@@ -24,6 +24,30 @@ class Information(commands.Cog):
         await ctx.send(embed=embed)
 
     @commands.command(
+        name="code",
+        help="Provide the code info",
+    )
+    async def get_code(self, ctx):
+        code_embed = self.bot.embed(
+            title="Code Structure",
+            description=(
+                f"This is the whole code structure of {self.bot.user.name}!"
+            ),
+        )
+
+        items = ("characters", "lines")
+        for file_name, file in self.files.items():
+            code_embed.add_field(
+                name=f"> {file_name}",
+                value="\n".join(
+                    f"- `{len(f):,}` {t}"
+                    for f, t in zip((file, file.splitlines()), items)
+                ),
+            )
+
+        await ctx.send(embed=code_embed)
+
+    @commands.command(
         name="ping", aliases=("latency", "lat", "ms"), brief="Pong !"
     )
     @commands.cooldown(2, 5, commands.BucketType.user)
