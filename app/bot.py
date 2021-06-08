@@ -1,3 +1,4 @@
+from app.database.database import Database
 import os
 import platform
 import time
@@ -37,6 +38,7 @@ class Bot(commands.Bot):
         )
 
         self.config = Config.load()
+        self.db = Database()
 
         for filename in os.listdir(os.path.join("app", "cogs")):
             if filename.endswith("py"):
@@ -104,6 +106,10 @@ class Bot(commands.Bot):
             sep="\n",
         )
         return super().run(self.config.token)
+
+    async def start(self, *args, **kwargs):
+        await self.db.init()
+        await super().start(*args, **kwargs)
 
     async def on_command_error(self, ctx: commands.Context, error: Exception):
         await ctx.send(str(error))
