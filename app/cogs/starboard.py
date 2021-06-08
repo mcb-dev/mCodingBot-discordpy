@@ -1,4 +1,4 @@
-from sqlite3.dbapi2 import Row
+from sqlite3.dbapi2 import IntegrityError, Row
 from typing import List, Optional, TYPE_CHECKING, Tuple, Union
 
 import discord
@@ -402,11 +402,14 @@ class StarboardEvents(commands.Cog):
             await act_message.remove_reaction(payload.emoji, payload.member)
             return
 
-        await self.bot.db.execute(
-            """INSERT INTO stars (message_id, user_id)
-            VALUES (?, ?)""",
-            (message.id, payload.user_id,)
-        )
+        try:
+            await self.bot.db.execute(
+                """INSERT INTO stars (message_id, user_id)
+                VALUES (?, ?)""",
+                (message.id, payload.user_id,)
+            )
+        except IntegrityError:
+            pass
 
         await update_message(
             self.bot,
