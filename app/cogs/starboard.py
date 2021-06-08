@@ -2,7 +2,6 @@ from sqlite3.dbapi2 import Row
 from typing import List, Optional, TYPE_CHECKING, Tuple, Union
 
 import discord
-from discord import utils
 from discord.ext import commands
 
 from app.constants import MISSING, ZWS
@@ -69,7 +68,7 @@ async def embed_message(
 
                 content += name + value
             if embed.footer.text is not embed.Empty:
-                content += f"{utils.escmd(embed.footer.text)}"
+                content += f"{embed.footer.text}"
             if embed.image.url is not embed.Empty:
                 urls.append(
                     {
