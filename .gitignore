@@ -133,3 +133,5 @@ dmypy.json
 
 # JetBrains
 .idea
+
+tests

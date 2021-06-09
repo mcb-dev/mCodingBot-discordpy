@@ -50,53 +50,43 @@ class Bot(commands.Bot):
 
     @property
     def mcoding_server(self) -> Optional[discord.Guild]:
-        if self._mcoding_server is not None:
-            return self._mcoding_server
-
-        self._mcoding_server = self.get_guild(self.config.mcoding_server_id)
+        if self._mcoding_server is None:
+            self._mcoding_server = self.get_guild(self.config.mcoding_server_id)
         return self._mcoding_server
 
     @property
     def member_count_channel(self) -> Optional[discord.VoiceChannel]:
-        if self._member_count_channel is not None:
-            return self._member_count_channel
-
-        self._member_count_channel = self.mcoding_server.get_channel(
-            self.config.member_count_channel_id
-        )
+        if self._member_count_channel is None:
+            self._member_count_channel = self.mcoding_server.get_channel(
+                self.config.member_count_channel_id
+            )
 
         return self._member_count_channel
 
     @property
     def donor_role(self) -> Optional[discord.Role]:
-        if self._donor_role is not None:
-            return self._donor_role
-
-        self._donor_role = self.mcoding_server.get_role(
-            self.config.donor_role_id
-        )
+        if self._donor_role is None:
+            self._donor_role = self.mcoding_server.get_role(
+                self.config.donor_role_id
+            )
 
         return self._donor_role
 
     @property
     def patron_role(self) -> Optional[discord.Role]:
-        if self._patron_role is not None:
-            return self._patron_role
-
-        self._patron_role = self.mcoding_server.get_role(
-            self.config.patron_role_id
-        )
+        if self._patron_role is None:
+            self._patron_role = self.mcoding_server.get_role(
+                self.config.patron_role_id
+            )
 
         return self._patron_role
 
     @property
     def starboard_channel(self) -> Optional[discord.TextChannel]:
-        if self._starboard_channel is not None:
-            return self._starboard_channel
-
-        self._starboard_channel = self.mcoding_server.get_channel(
-            self.config.starboard_channel_id
-        )
+        if self._starboard_channel is None:
+            self._starboard_channel = self.mcoding_server.get_channel(
+                self.config.starboard_channel_id
+            )
 
         return self._starboard_channel
 
