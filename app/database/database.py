@@ -25,6 +25,10 @@ class Database:
         for table in tables.ALL_TABLES:
             await self.execute(table)
 
+    async def close(self):
+        async with self.lock:
+            await self.con.close()
+
     async def _execute(
         self, fetch: bool, *args, **kwargs
     ) -> Optional[Iterable[Row]]:

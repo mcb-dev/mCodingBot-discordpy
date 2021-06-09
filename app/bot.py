@@ -131,6 +131,10 @@ class Bot(commands.Bot):
         await self.db.init()
         await super().start(*args, **kwargs)
 
+    async def close(self):
+        await self.db.close()
+        return await super().close()
+
     async def on_command_error(self, ctx: commands.Context, error: Exception):
         await ctx.send(str(error))
 
