@@ -12,4 +12,4 @@ class TemplateCog(commands.Cog):
 
 
 def setup(bot: "Bot"):
-    client.add_cog(TemplateCog(bot))
+    bot.add_cog(TemplateCog(bot))
