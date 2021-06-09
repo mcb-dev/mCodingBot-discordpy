@@ -1,0 +1,4 @@
+*.template linguist-language=python
+
+*.sql linguist-detectable=true
+*.sql linguist-language=sql
