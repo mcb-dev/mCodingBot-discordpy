@@ -8,12 +8,14 @@ if TYPE_CHECKING:
 
 
 class MemberCount(commands.Cog):
+
     def __init__(self, bot: "Bot"):
         self.bot = bot
         if self.bot.config.member_count_channel_id is not None:
             self.update_member_count.start()
 
-    def get_member_count(self, guild):
+    @staticmethod
+    def get_member_count(guild):
         mc = guild.member_count
         mc_log = round(log(mc, 2), 3)
         if mc_log % 1 == 0:
