@@ -27,9 +27,7 @@ class MemberCount(commands.Cog):
             await self.bot.wait_until_ready()
         g = self.bot.mcoding_server
         await self.bot.member_count_channel.edit(
-            name=(
-                f"Members: {self.get_member_count(g)} " f"({g.member_count})"
-            )
+            name=f"Members: {self.get_member_count(g)} ({g.member_count})"
         )
 
 
