@@ -42,6 +42,7 @@ class Bot(commands.Bot):
                 color=discord.Color(self.theme),
                 command_attrs={"hidden": True},
             ),
+            allowed_mentions=discord.AllowedMentions.none(),
         )
 
         self.config = Config.load()
