@@ -61,6 +61,12 @@ class Dev(commands.Cog):
 
         await ctx.send(embed=_embed)
 
+    @commands.command(name="reload_config", aliases=["reloadconf"])
+    @commands.is_owner()
+    async def reload_config(self, ctx: commands.Context):
+        self.bot.config = self.bot.config.load()
+        await ctx.send("Done.")
+
 
 def setup(bot: "Bot"):
     bot.add_cog(Dev(bot))
