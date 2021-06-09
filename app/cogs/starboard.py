@@ -1,5 +1,5 @@
 from sqlite3.dbapi2 import IntegrityError, Row
-from typing import List, Optional, TYPE_CHECKING, Tuple, Union
+from typing import TYPE_CHECKING, List, Optional, Tuple, Union
 
 import discord
 from discord.ext import commands
@@ -101,7 +101,7 @@ async def embed_message(
                 "type": "gif" if embed.type == "gifv" else embed.type,
                 "spoiler": False,
                 "show_link": True,
-                "thumbnail_only": False
+                "thumbnail_only": False,
             }
             if embed.type == "image":
                 new_url = {"name": "Image", **new_url}
@@ -117,7 +117,7 @@ async def embed_message(
         content = content[:-to_remove]
 
     _a = message.author
-    author_name = (f"{_a.display_name}#{_a.discriminator}")
+    author_name = f"{_a.display_name}#{_a.discriminator}"
 
     embed = discord.Embed(
         color=bot.theme,
@@ -133,7 +133,7 @@ async def embed_message(
         if message.reference.resolved is None:
             ref_message = await bot.fetch_message(
                 bot.get_channel(message.reference.channel_id),
-                message.reference.message_id
+                message.reference.message_id,
             )
             if ref_message is None:
                 ref_content = "*Message was deleted*"
@@ -223,7 +223,7 @@ async def original_message(bot: "Bot", message_id: int) -> Optional[Row]:
     from_id = await bot.db.fetchone(
         """SELECT * FROM messages
         WHERE id=?""",
-        (message_id,)
+        (message_id,),
     )
     if from_id:
         return from_id
@@ -231,7 +231,7 @@ async def original_message(bot: "Bot", message_id: int) -> Optional[Row]:
     from_starboard_id = await bot.db.fetchone(
         """SELECT * FROM messages
         WHERE starboard_message_id=?""",
-        (message_id,)
+        (message_id,),
     )
     if from_starboard_id:
         return from_starboard_id
@@ -243,9 +243,7 @@ async def update_message(
     bot: "Bot",
     channel: Union[discord.TextChannel, int],
     orig_message: Union[discord.Message, int],
-    starboard_message: Union[
-        discord.Message, int, None
-    ] = MISSING,
+    starboard_message: Union[discord.Message, int, None] = MISSING,
 ):
     if isinstance(channel, int):
         channel = bot.get_channel(channel)
@@ -255,52 +253,48 @@ async def update_message(
     starboard = bot.starboard_channel
     if isinstance(starboard_message, int):
         starboard_message = await bot.fetch_message(
-            starboard,
-            starboard_message
+            starboard, starboard_message
         )
     elif starboard_message is MISSING:
         sql_orig = await bot.db.fetchone(
             """SELECT * FROM messages
             WHERE id=?""",
-            (orig_message.id,)
+            (orig_message.id,),
         )
         if sql_orig and sql_orig["starboard_message_id"]:
             starboard_message = await bot.fetch_message(
-                starboard,
-                int(sql_orig["starboard_message_id"])
+                starboard, int(sql_orig["starboard_message_id"])
             )
         else:
             starboard_message = None
 
-    points = (await bot.db.fetchone(
-        """SELECT COUNT(*) FROM stars
+    points = (
+        await bot.db.fetchone(
+            """SELECT COUNT(*) FROM stars
         WHERE message_id=?""",
-        (orig_message.id,)
-    ))["COUNT(*)"]
+            (orig_message.id,),
+        )
+    )["COUNT(*)"]
 
     if starboard_message:
-        embed, _ = await embed_message(
-            bot, orig_message, False
-        )
+        embed, _ = await embed_message(bot, orig_message, False)
         await starboard_message.edit(
-            content=plain_text(orig_message, points),
-            embed=embed
+            content=plain_text(orig_message, points), embed=embed
         )
     else:
         if points >= bot.config.starboard_limit:
-            embed, files = await embed_message(
-                bot, orig_message
-            )
+            embed, files = await embed_message(bot, orig_message)
             msg: discord.Message = await starboard.send(
-                plain_text(orig_message, points),
-                embed=embed,
-                files=files
+                plain_text(orig_message, points), embed=embed, files=files
             )
             await bot.db.execute(
                 """UPDATE MESSAGES
                 SET starboard_message_id=?
                 WHERE id=?""",
-                (msg.id, orig_message.id,)
+                (
+                    msg.id,
+                    orig_message.id,
+                ),
             )
             await msg.add_reaction("⭐")
 
@@ -342,8 +336,7 @@ class StarboardEvents(commands.Cog):
         # TODO: cache messages
         try:
             act_message: discord.Message = await self.bot.fetch_message(
-                channel,
-                payload.message_id
+                channel, payload.message_id
             )
         except discord.NotFound:
             return
@@ -353,11 +346,14 @@ class StarboardEvents(commands.Cog):
             await self.bot.db.execute(
                 """INSERT INTO messages (id, channel_id, author_id)
                 VALUES (?, ?, ?)""",
-                (payload.message_id, payload.channel_id, act_message.author.id)
+                (
+                    payload.message_id,
+                    payload.channel_id,
+                    act_message.author.id,
+                ),
             )
             sql_message = await self.bot.db.fetchone(
-                """SELECT * FROM messages WHERE id=?""",
-                (payload.message_id,)
+                """SELECT * FROM messages WHERE id=?""", (payload.message_id,)
             )
 
         if int(sql_message["id"]) != act_message.id:
@@ -380,7 +376,10 @@ class StarboardEvents(commands.Cog):
             await self.bot.db.execute(
                 """INSERT INTO stars (message_id, user_id)
                 VALUES (?, ?)""",
-                (message.id, payload.user_id,)
+                (
+                    message.id,
+                    payload.user_id,
+                ),
             )
         except IntegrityError:
             pass
@@ -408,7 +407,10 @@ class StarboardEvents(commands.Cog):
             """DELETE FROM stars
             WHERE message_id=?
             AND user_id=?""",
-            (original["id"], payload.user_id,)
+            (
+                original["id"],
+                payload.user_id,
+            ),
         )
 
         await update_message(

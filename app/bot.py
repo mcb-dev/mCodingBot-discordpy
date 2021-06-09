@@ -1,4 +1,3 @@
-from app.database.database import Database
 import os
 import platform
 import time
@@ -10,6 +9,7 @@ from aiocache import cached
 from discord.ext import commands, prettyhelp
 
 from app.config import Config
+from app.database.database import Database
 
 INTENTS = discord.Intents(
     guild_messages=True,
@@ -21,7 +21,6 @@ INTENTS = discord.Intents(
 
 
 class Bot(commands.Bot):
-
     def __init__(self):
         self._mcoding_server: Optional[discord.Guild] = None
         self._member_count_channel: Optional[discord.VoiceChannel] = None
@@ -112,10 +111,7 @@ class Bot(commands.Bot):
         _embed = discord.Embed(**kwargs, color=self.theme)
 
         return _embed.set_footer(
-            text=(
-                f"{self.user.name} - m!help for "
-                "more information"
-            ),
+            text=(f"{self.user.name} - m!help for " "more information"),
             icon_url=self.user.avatar_url,
         )
 

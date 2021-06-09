@@ -1,5 +1,5 @@
-from typing import TYPE_CHECKING
 from math import log
+from typing import TYPE_CHECKING
 
 from discord.ext import commands, tasks
 
@@ -8,7 +8,6 @@ if TYPE_CHECKING:
 
 
 class MemberCount(commands.Cog):
-
     def __init__(self, bot: "Bot"):
         self.bot = bot
         if self.bot.config.member_count_channel_id is not None:
@@ -27,10 +26,11 @@ class MemberCount(commands.Cog):
         if not self.bot.is_ready():
             await self.bot.wait_until_ready()
         g = self.bot.mcoding_server
-        await self.bot.member_count_channel.edit(name=(
-            f"Members: {self.get_member_count(g)} "
-            f"({g.member_count})"
-        ))
+        await self.bot.member_count_channel.edit(
+            name=(
+                f"Members: {self.get_member_count(g)} " f"({g.member_count})"
+            )
+        )
 
 
 def setup(bot: "Bot"):

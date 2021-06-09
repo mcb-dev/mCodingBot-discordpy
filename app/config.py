@@ -4,7 +4,6 @@ import dotenv
 
 
 class Config:
-
     def __init__(
         self,
         **env: Dict[str, str],

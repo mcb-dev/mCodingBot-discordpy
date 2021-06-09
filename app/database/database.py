@@ -1,7 +1,7 @@
-from typing import Iterable, Optional
 import asyncio
-
 from sqlite3.dbapi2 import Row
+from typing import Iterable, Optional
+
 import aiosqlite
 
 from . import tables
