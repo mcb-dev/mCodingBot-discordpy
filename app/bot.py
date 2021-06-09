@@ -11,7 +11,13 @@ from discord.ext import commands, prettyhelp
 
 from app.config import Config
 
-INTENTS = discord.Intents.all()
+INTENTS = discord.Intents(
+    guild_messages=True,
+    guild_reactions=True,
+    guilds=True,
+    members=True,
+    presences=True,
+)
 
 
 class Bot(commands.Bot):
@@ -51,7 +57,9 @@ class Bot(commands.Bot):
     @property
     def mcoding_server(self) -> Optional[discord.Guild]:
         if self._mcoding_server is None:
-            self._mcoding_server = self.get_guild(self.config.mcoding_server_id)
+            self._mcoding_server = self.get_guild(
+                self.config.mcoding_server_id
+            )
         return self._mcoding_server
 
     @property
