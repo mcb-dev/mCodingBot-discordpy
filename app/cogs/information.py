@@ -33,7 +33,12 @@ class Information(commands.Cog):
     async def links(self, ctx: commands.Context):
         embed = self.bot.embed(
             title="Useful Links",
-            description="<useful links here>",
+            description=(
+                "**[mCoding Youtube](https://www.youtube.com/channel"
+                "/UCaiL2GDNpLYH6Wokkk1VNcg)**\n"
+                "**[mCoding-Bot repo](https://github.com/CircuitSacul"
+                "/mCoding-Bot)**"
+            ),
         )
         await ctx.send(embed=embed)
 
