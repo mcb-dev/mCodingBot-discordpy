@@ -16,9 +16,9 @@ class TooManyRows(Exception):
 class Database:
     def __init__(self):
         self.lock = asyncio.Lock()
-        self.con: aiosqlite.Connection = None
+        self.con: Optional[aiosqlite.Connection] = None
 
-    async def init(self, path: str = "db.sqlite3") -> "Database":
+    async def init(self, path: str = "db.sqlite3"):
         self.con = await aiosqlite.connect(path)
         self.con.row_factory = aiosqlite.Row
 
@@ -50,9 +50,9 @@ class Database:
     async def fetchone(self, *args, **kwargs) -> Optional[Row]:
         rows = await self.fetch(*args, **kwargs)
         num = len(rows)
-        if num == 1:
-            return rows[0]
-        elif num == 0:
-            return None
-        else:
+
+        if num > 1:
             raise TooManyRows(num)
+
+        if num:
+            return rows[0]
