@@ -11,17 +11,18 @@ from discord.ext import commands, prettyhelp
 
 from app.config import Config
 
-INTENTS = discord.Intents(
-    guild_messages=True,
-    guild_reactions=True,
-    guilds=True,
-    members=True,
-    presences=True,
-)
+INTENTS = discord.Intents.all()
 
 
 class Bot(commands.Bot):
+
     def __init__(self):
+        self._mcoding_server: Optional[discord.Guild] = None
+        self._member_count_channel: Optional[discord.VoiceChannel] = None
+        self._donor_role: Optional[discord.Role] = None
+        self._patron_role: Optional[discord.Role] = None
+        self._starboard_channel: Optional[discord.TextChannel] = None
+
         print(
             f"\n-> Starting Bot on Python {platform.python_version()}, "
             f"discord.py {discord.__version__}\n"
@@ -44,66 +45,70 @@ class Bot(commands.Bot):
         for filename in os.listdir(os.path.join("app", "cogs")):
             if filename.endswith("py"):
                 self.load_extension(f"app.cogs.{filename[:-3]}")
+
         self.load_extension("jishaku")
 
     @property
     def mcoding_server(self) -> Optional[discord.Guild]:
-        try:
+        if self._mcoding_server is not None:
             return self._mcoding_server
-        except AttributeError:
-            self._mcoding_server = self.get_guild(
-                self.config.mcoding_server_id
-            )
-            return self._mcoding_server
+
+        self._mcoding_server = self.get_guild(self.config.mcoding_server_id)
+        return self._mcoding_server
 
     @property
     def member_count_channel(self) -> Optional[discord.VoiceChannel]:
-        try:
+        if self._member_count_channel is not None:
             return self._member_count_channel
-        except AttributeError:
-            self._member_count_channel = self.mcoding_server.get_channel(
-                self.config.member_count_channel_id
-            )
-            return self._member_count_channel
+
+        self._member_count_channel = self.mcoding_server.get_channel(
+            self.config.member_count_channel_id
+        )
+
+        return self._member_count_channel
 
     @property
     def donor_role(self) -> Optional[discord.Role]:
-        try:
+        if self._donor_role is not None:
             return self._donor_role
-        except AttributeError:
-            self._donor_role = self.mcoding_server.get_role(
-                self.config.donor_role_id
-            )
-            return self._donor_role
+
+        self._donor_role = self.mcoding_server.get_role(
+            self.config.donor_role_id
+        )
+
+        return self._donor_role
 
     @property
     def patron_role(self) -> Optional[discord.Role]:
-        try:
+        if self._patron_role is not None:
             return self._patron_role
-        except AttributeError:
-            self._patron_role = self.mcoding_server.get_role(
-                self.config.patron_role_id
-            )
-            return self._patron_role
+
+        self._patron_role = self.mcoding_server.get_role(
+            self.config.patron_role_id
+        )
+
+        return self._patron_role
 
     @property
     def starboard_channel(self) -> Optional[discord.TextChannel]:
-        try:
+        if self._starboard_channel is not None:
             return self._starboard_channel
-        except AttributeError:
-            self._starboard_channel = self.mcoding_server.get_channel(
-                self.config.starboard_channel_id
-            )
-            return self._starboard_channel
+
+        self._starboard_channel = self.mcoding_server.get_channel(
+            self.config.starboard_channel_id
+        )
+
+        return self._starboard_channel
 
     @cached(ttl=10)
     async def fetch_message(
         self, channel: discord.TextChannel, message_id: int
-    ) -> discord.Message:
+    ) -> Optional[discord.Message]:
         try:
             return await channel.fetch_message(message_id)
+
         except discord.NotFound:
-            return None
+            return
 
     def embed(self, **kwargs):
         _embed = discord.Embed(**kwargs, color=self.theme)
