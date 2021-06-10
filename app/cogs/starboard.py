@@ -316,11 +316,10 @@ class StarboardEvents(commands.Cog):
             return False
         if payload.member and payload.member.bot:
             return False
-        if payload.emoji.name not in [
-            "⭐",
-            discord.PartialEmoji(name="vote_up", id=829047019234263090),
-        ]:
-            print("nope")
+        if not (
+            payload.emoji.name == "⭐"
+            or payload.emoji.id == 829047019234263090
+        ):
             return False
         return True
 
