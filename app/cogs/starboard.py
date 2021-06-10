@@ -318,7 +318,7 @@ class StarboardEvents(commands.Cog):
             return False
         if payload.emoji.name not in [
             "⭐",
-            discord.PartialEmoji("vote_up", id=829047019234263090),
+            discord.PartialEmoji(name="vote_up", id=829047019234263090),
         ]:
             print("nope")
             return False
