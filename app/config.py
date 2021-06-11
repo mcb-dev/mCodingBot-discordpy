@@ -15,8 +15,8 @@ class Config:
                 return int(val)
 
         self.token = env.pop("TOKEN")
-
         self.mcoding_server_id = int_or_none("MCODING_SERVER")
+        self.owner_ids = [int(user_id) for user_id in env["OWNERS"].split(" ")]
 
         self.member_count_channel_id = int_or_none("MEMBER_COUNT_CHANNEL")
 

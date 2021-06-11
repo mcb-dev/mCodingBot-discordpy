@@ -54,6 +54,11 @@ class Bot(commands.Bot):
 
         self.load_extension("jishaku")
 
+    async def is_owner(self, user: discord.User):
+        if user.id in self.config.owner_ids:
+            return True
+        return await super().is_owner(user)
+
     @property
     def mcoding_server(self) -> Optional[discord.Guild]:
         if self._mcoding_server is None:
