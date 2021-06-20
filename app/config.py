@@ -19,12 +19,17 @@ class Config:
         self.owner_ids = [int(user_id) for user_id in env["OWNERS"].split(" ")]
 
         self.member_count_channel_id = int_or_none("MEMBER_COUNT_CHANNEL")
+        self.sub_count_channel = int_or_none("SUBSCRIBER_COUNT_CHANNEL")
+        self.view_count_channel = int_or_none("VIEW_COUNT_CHANNEL")
 
         self.donor_role_id = int_or_none("DONOR_ROLE")
         self.patron_role_id = int_or_none("PATRON_ROLE")
 
         self.starboard_channel_id = int_or_none("STARBOARD_CHANNEL")
         self.starboard_limit = int_or_none("STARBOARD_LIMIT")
+
+        self.yt_api_key = env.pop("YT_API_KEY", None)
+        self.mcoding_yt_id = env.pop("MCODING_YT_ID", None)
 
     @classmethod
     def load(cls: Type["Config"], file: str = ".env") -> "Config":

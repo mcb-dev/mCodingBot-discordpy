@@ -27,6 +27,8 @@ class Bot(commands.Bot):
         self._donor_role: Optional[discord.Role] = None
         self._patron_role: Optional[discord.Role] = None
         self._starboard_channel: Optional[discord.TextChannel] = None
+        self._sub_count_channel: Optional[discord.VoiceChannel] = None
+        self._view_count_channel: Optional[discord.VoiceChannel] = None
 
         print(
             f"\n-> Starting Bot on Python {platform.python_version()}, "
@@ -75,6 +77,24 @@ class Bot(commands.Bot):
             )
 
         return self._member_count_channel
+
+    @property
+    def view_count_channel(self) -> Optional[discord.VoiceChannel]:
+        if self._view_count_channel is None:
+            self._view_count_channel = self.mcoding_server.get_channel(
+                self.config.view_count_channel
+            )
+
+        return self._view_count_channel
+
+    @property
+    def sub_count_channel(self) -> Optional[discord.VoiceChannel]:
+        if self._sub_count_channel is None:
+            self._sub_count_channel = self.mcoding_server.get_channel(
+                self.config.sub_count_channel
+            )
+
+        return self._sub_count_channel
 
     @property
     def donor_role(self) -> Optional[discord.Role]:
