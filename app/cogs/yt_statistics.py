@@ -17,6 +17,9 @@ class YtStatistics(commands.Cog):
         if self.bot.config.sub_count_channel is not None:
             self.update_sub_count.start()
 
+        if self.bot.config.view_count_channel is not None:
+            self.update_view_count.start()
+
         self._stat_update = 0
         self._last_stats = {'subs': '?', 'views': '?'}  # DONT REMOVE THIS !
         self._last_stats = self.channel_stats
@@ -53,7 +56,7 @@ class YtStatistics(commands.Cog):
             return self._stat_update
 
         self.bot.log("Youtube statistics fetched !")
-        self._last_stats = {'subs': f"{subs:,}", 'views': f"{views:,}"}
+        self._last_stats = {'subs': f"{subs:,.0f}", 'views': f"{views:,.0f}"}
         self._stat_update = time.time() // 100
         return self._last_stats
 
@@ -64,6 +67,15 @@ class YtStatistics(commands.Cog):
 
         await self.bot.sub_count_channel.edit(
             name=f"Subs: {self.channel_stats['subs']}"
+        )
+
+    @tasks.loop(minutes=10)
+    async def update_view_count(self):
+        if not self.bot.is_ready():
+            await self.bot.wait_until_ready()
+
+        await self.bot.view_count_channel.edit(
+            name=f"Views: {self.channel_stats['views']}"
         )
 
 
