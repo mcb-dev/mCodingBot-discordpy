@@ -22,7 +22,7 @@ class YtStatistics(commands.Cog):
             self.update_view_count.start()
 
         self._stat_update = 0
-        self._last_stats = {'subs': '?', 'views': '?'}  # DONT REMOVE THIS !
+        self._last_stats = {'subs': -1, 'views': -1}  # DONT REMOVE THIS !
         self._last_stats = self.channel_stats
 
     @property
