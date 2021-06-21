@@ -1,7 +1,8 @@
-import requests
 import time
 from math import log
 from typing import TYPE_CHECKING
+
+import requests
 from discord.ext import commands, tasks
 
 if TYPE_CHECKING:
@@ -11,7 +12,6 @@ BASE_URL = "https://www.googleapis.com/youtube/v3/channels"
 
 
 class YtStatistics(commands.Cog):
-
     def __init__(self, bot: "Bot"):
         self.bot = bot
 
@@ -22,7 +22,7 @@ class YtStatistics(commands.Cog):
             self.update_view_count.start()
 
         self._stat_update = 0
-        self._last_stats = {'subs': -1, 'views': -1}  # DONT REMOVE THIS !
+        self._last_stats = {"subs": -1, "views": -1}  # DONT REMOVE THIS !
         self._last_stats = self.channel_stats
 
     @property
@@ -46,18 +46,18 @@ class YtStatistics(commands.Cog):
         if channel.get("id") != self.bot.config.mcoding_yt_id:
             return self._last_stats
 
-        statistics = channel.get('statistics')
+        statistics = channel.get("statistics")
         if not statistics:
             return self._last_stats
 
-        subs = float(statistics.get('subscriberCount', 0))
-        views = float(statistics.get('viewCount', 0))
+        subs = float(statistics.get("subscriberCount", 0))
+        views = float(statistics.get("viewCount", 0))
 
         if not subs or not views:
             return self._stat_update
 
         self.bot.log("Youtube statistics fetched!")
-        self._last_stats = {'subs': subs, 'views': views}
+        self._last_stats = {"subs": subs, "views": views}
         self._stat_update = time.time() // 100
         return self._last_stats
 

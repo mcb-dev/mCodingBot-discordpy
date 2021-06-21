@@ -317,8 +317,7 @@ class StarboardEvents(commands.Cog):
         if payload.member and payload.member.bot:
             return False
         if not (
-            payload.emoji.name == "⭐"
-            or payload.emoji.id == 829047019234263090
+            payload.emoji.name == "⭐" or payload.emoji.id == 829047019234263090
         ):
             return False
         return True
