@@ -75,7 +75,7 @@ class YtStatistics(commands.Cog):
             await self.bot.wait_until_ready()
 
         await self.bot.view_count_channel.edit(
-            name=f"Views: {self.channel_stats['views']}"
+            name=f"Views: {round(self.channel_stats['views']/10**6, 2)}M"
         )
 
 
