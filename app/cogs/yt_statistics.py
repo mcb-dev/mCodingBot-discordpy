@@ -1,5 +1,6 @@
 import requests
 import time
+from math import log
 from typing import TYPE_CHECKING
 from discord.ext import commands, tasks
 
@@ -29,7 +30,7 @@ class YtStatistics(commands.Cog):
         if self._stat_update == (time.time() // 100):
             return self._last_stats
 
-        self.bot.log("Retrieving channel stats....")
+        self.bot.log("Retrieving channel stats...")
 
         link = f"{BASE_URL}?part=statistics&id={self.bot.config.mcoding_yt_id}&key={self.bot.config.yt_api_key}"
         response = requests.get(link).json()
@@ -55,10 +56,25 @@ class YtStatistics(commands.Cog):
         if not subs or not views:
             return self._stat_update
 
-        self.bot.log("Youtube statistics fetched !")
-        self._last_stats = {'subs': f"{subs:,.0f}", 'views': f"{views:,.0f}"}
+        self.bot.log("Youtube statistics fetched!")
+        self._last_stats = {'subs': subs, 'views': views}
         self._stat_update = time.time() // 100
         return self._last_stats
+    
+    @staticmethod
+    def display_stats(stat):
+        stat = int(self.channel_stats[stat])
+        if stat < 10**6:
+            intstat = f"{round(stat / 10**3, 2)}K"
+        elif stat < 10**9:
+            intstat = f"{round(stat / 10**6, 2)}M"
+        expstat = round(log(stat, 2), 3)
+        # ^ this might not be as accurate as the member count thing when
+        # someone picky actually calculates it, but I suppose it's not
+        # gonna be such a problem if it's gonna be shown as e.g. "44.3K"
+        if expstat % 1 == 0:
+            expstat = int(expstat)
+        return f"2**{expstat} ({intstat})"
 
     @tasks.loop(minutes=10)
     async def update_sub_count(self):
@@ -66,7 +82,7 @@ class YtStatistics(commands.Cog):
             await self.bot.wait_until_ready()
 
         await self.bot.sub_count_channel.edit(
-            name=f"Subs: {self.channel_stats['subs']}"
+            name=f"Subs: {self.display_stats(subs)}"
         )
 
     @tasks.loop(minutes=10)
@@ -75,7 +91,7 @@ class YtStatistics(commands.Cog):
             await self.bot.wait_until_ready()
 
         await self.bot.view_count_channel.edit(
-            name=f"Views: {round(self.channel_stats['views']/10**6, 2)}M"
+            name=f"Views: {self.display_stats(views)}"
         )
 
 
