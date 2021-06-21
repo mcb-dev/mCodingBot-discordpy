@@ -19,7 +19,7 @@ class MemberCount(commands.Cog):
         mc_log = round(log(mc, 2), 3)
         if mc_log % 1 == 0:
             mc_log = int(mc_log)
-        return f"2**{str(mc_log)}"
+        return f"2**{str(mc_log)} ({mc})"
 
     @tasks.loop(minutes=10)
     async def update_member_count(self):
@@ -28,7 +28,7 @@ class MemberCount(commands.Cog):
 
         g = self.bot.mcoding_server
         await self.bot.member_count_channel.edit(
-            name=f"Members: {self.get_member_count(g)} ({g.member_count})"
+            name=f"Members: {self.get_member_count(g)}"
         )
 
 
