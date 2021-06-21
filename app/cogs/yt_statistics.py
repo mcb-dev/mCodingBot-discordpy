@@ -82,7 +82,7 @@ class YtStatistics(commands.Cog):
             await self.bot.wait_until_ready()
 
         await self.bot.sub_count_channel.edit(
-            name=f"Subs: {self.display_stats(subs)}"
+            name=f"Subs: {self.display_stats('subs')}"
         )
 
     @tasks.loop(minutes=10)
@@ -91,7 +91,7 @@ class YtStatistics(commands.Cog):
             await self.bot.wait_until_ready()
 
         await self.bot.view_count_channel.edit(
-            name=f"Views: {self.display_stats(views)}"
+            name=f"Views: {self.display_stats('views')}"
         )
 
 
