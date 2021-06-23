@@ -11,6 +11,7 @@ python-dotenv = "==0.17.1"
 psutil = "==5.8.0"
 discord-ext-prettyhelp = "==0.2.3"
 jishaku = "==2.0.0"
+requests = "~=2.25.1"
 
 [dev-packages]
 
