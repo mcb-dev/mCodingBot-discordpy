@@ -71,7 +71,7 @@ class YtStatistics(commands.Cog):
             pretty_stat = int_stat / 10 ** 6
             unit = "M"
 
-            pretty_stat = round(pretty_stat, 2)
+        pretty_stat = round(pretty_stat, 2)
 
         exp_stat = round(log(int_stat, 2), 3)
         # ^ this might not be as accurate as the member count thing when
