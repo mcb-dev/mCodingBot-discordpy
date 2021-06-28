@@ -1,7 +1,6 @@
 from typing import TYPE_CHECKING
 
-import discord
-from discord.ext import commands
+from discord.ext import commands, tasks
 
 if TYPE_CHECKING:
     from app.bot import Bot
@@ -10,20 +9,18 @@ if TYPE_CHECKING:
 class DonorRole(commands.Cog):
     def __init__(self, bot: "Bot"):
         self.bot = bot
+        self.check_missing_donor_role.start()
 
-    @commands.Cog.listener()
-    async def on_member_update(
-        self, before: discord.Member, after: discord.Member
-    ):
-        if before.guild.id != self.bot.mcoding_server.id:
-            return
+    @tasks.loop(minutes=1)
+    async def check_missing_donor_role(self):
+        await self.bot.wait_until_ready()
+        if not self.bot.mcoding_server.chunked:
+            await self.bot.mcoding_server.chunk()
 
-        if len(before.roles) > len(after.roles):  # they received a role
-            return
-
-        added_roles = [r for r in after.roles if r not in before.roles]
-        if self.bot.patron_role in added_roles:
-            await after.add_roles(self.bot.donor_role)
+        patron_role = self.bot.patron_role
+        for member in patron_role.members:
+            if self.bot.donor_role not in member.roles:
+                await member.add_roles(self.bot.donor_role)
 
 
 def setup(bot: "Bot"):
