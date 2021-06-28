@@ -62,7 +62,7 @@ class YtStatistics(commands.Cog):
         return self._last_stats
 
     def display_stats(self, stat):
-        pretty_stat = int_stat = int(channel_stats[stat])
+        pretty_stat = int_stat = int(self.channel_stats[stat])
         
         if int_stat < 10 ** 6:
             pretty_stat = int_stat / 10 ** 3
