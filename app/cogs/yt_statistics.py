@@ -61,23 +61,30 @@ class YtStatistics(commands.Cog):
         self._stat_update = time.time() // 100
         return self._last_stats
 
-    def display_stats(self, stat):
-        pretty_stat = int_stat = int(self.channel_stats[stat])
+	def display_stats(stat: str):
+		pretty_stat = int_stat = int(channel_stats[stat])
+		
+		if int_stat < 10 ** 6:
+			pretty_stat = int_stat / 10 ** 3
+			unit = "K"
+		else:
+			pretty_stat = int_stat / 10 ** 6
+			unit = "M"
+		
+		pretty_stat = round(pretty_stat, 2)
 
-        if int_stat < 10 ** 6:
-            pretty_stat = f"{round(int_stat / 10 ** 3, 2)}K"
-        elif int_stat < 10 ** 9:
-            pretty_stat = f"{round(int_stat / 10 ** 6, 2)}M"
+		exp_stat = round(log(int_stat, 2), 3)
+		# ^ this might not be as accurate as the member count thing when
+		# someone picky actually calculates it, but I suppose it's not
+		# gonna be such a problem if it's gonna be shown as e.g. "44.3K"
 
-        exp_stat = round(log(int_stat, 2), 3)
-        # ^ this might not be as accurate as the member count thing when
-        # someone picky actually calculates it, but I suppose it's not
-        # gonna be such a problem if it's gonna be shown as e.g. "44.3K"
+		if exp_stat % 1 == 0:
+			exp_stat = int(exp_stat)
+		
+		if pretty_stat % 1 == 0:
+			pretty_stat = int(pretty_stat)
 
-        if exp_stat % 1 == 0:
-            exp_stat = int(exp_stat)
-
-        return f"2**{exp_stat} ({pretty_stat})"
+		return f"2**{exp_stat} ({pretty_stat}{unit})"
 
     @tasks.loop(minutes=10)
     async def update_sub_count(self):
