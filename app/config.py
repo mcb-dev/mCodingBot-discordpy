@@ -31,6 +31,13 @@ class Config:
         self.yt_api_key = env.pop("YT_API_KEY", None)
         self.mcoding_yt_id = env.pop("MCODING_YT_ID", None)
 
+        self.autopublish_channel_ids = [
+            int(c) for c in env.pop("AUTOPUBLISH_CHANNELS").split(" ")
+        ]
+        self.autopublish_user_ids = [
+            int(c) for c in env.pop("AUTOPUBLISH_USERS").split(" ")
+        ]
+
     @classmethod
     def load(cls: Type["Config"], file: str = ".env") -> "Config":
         return cls(**dotenv.dotenv_values(file))
