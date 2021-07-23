@@ -183,7 +183,7 @@ class Bot(commands.Bot):
 
         channel_id = self.config.welcome_channel
         if channel_id is None:
-            self.log(f"CUSTOM_INVITE_CHANNEL environment variable is not defined. Member join message will not be sent.")
+            self.log("WELCOME_CHANNEL environment variable is not defined. Member join message will not be sent.")
             return
 
         channel = self.get_channel(channel_id)
