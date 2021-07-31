@@ -128,7 +128,7 @@ class Information(commands.Cog):
             embed.add_field(name="> Activity", value=user.activity.name)
 
         if len(user.roles) < 50:
-            roles = ", ".join([f"{role.name}" for role in user.roles[:0:-1]])
+            roles = ", ".join(f"{role.name}" for role in user.roles[:0:-1])
         else:
             roles = "too many roles"
 

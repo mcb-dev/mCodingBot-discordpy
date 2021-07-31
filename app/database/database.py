@@ -34,10 +34,7 @@ class Database:
     ) -> Optional[Iterable[Row]]:
         async with self.lock:
             cur = await self.con.execute(*args, **kwargs)
-            if fetch:
-                rows = await cur.fetchall()
-            else:
-                rows = None
+            rows = await cur.fetchall() if fetch else None
             await self.con.commit()
         return rows
 

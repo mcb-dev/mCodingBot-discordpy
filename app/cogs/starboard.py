@@ -49,15 +49,15 @@ async def embed_message(
     embed: discord.Embed
     for embed in message.embeds:
         if embed.type in ["rich", "article", "link"]:
-            if embed.title != embed.Empty:
-                if embed.url == embed.Empty:
-                    content += f"\n\n__**{embed.title}**__\n"
-                else:
-                    content += f"\n\n__**[{embed.title}]({embed.url})**__\n"
-            else:
+            if embed.title == embed.Empty:
                 content += "\n"
+            elif embed.url == embed.Empty:
+                content += f"\n\n__**{embed.title}**__\n"
+            else:
+                content += f"\n\n__**[{embed.title}]({embed.url})**__\n"
+
             content += (
-                (f"{embed.description}\n")
+                f"{embed.description}\n"
                 if embed.description != embed.Empty
                 else ""
             )
@@ -140,11 +140,13 @@ async def embed_message(
             else:
                 ref_author = str(ref_message.author)
                 ref_content = ref_message.system_content
+
         else:
             ref_message = message.reference.resolved
             if isinstance(message.reference.resolved, discord.Message):
                 ref_content = message.reference.resolved.system_content
                 ref_author = str(ref_message.author)
+
             else:
                 ref_content = "*Message was deleted*"
 
@@ -180,27 +182,31 @@ async def embed_message(
     image_types = ["png", "jpg", "jpeg", "gif", "gifv", "svg", "webp"]
     for data in urls:
         if data["type"] == "upload":
-            is_image = False
-            for t in image_types:
-                if data["url"].endswith(t):
-                    is_image = True
-                    break
+            is_image = any(data["url"].endswith(t) for t in image_types)
             added = False
-            if is_image and not nsfw and not data["spoiler"]:
-                if not image_used:
-                    embed.set_image(url=data["display_url"])
-                    image_used = True
-                    added = True
+
+            if (
+                is_image
+                and not nsfw
+                and not data["spoiler"]
+                and not image_used
+            ):
+                embed.set_image(url=data["display_url"])
+                image_used = True
+                added = True
+
             if not added and data["file"] is not None:
                 f: discord.File = data["file"]
                 if nsfw:
                     f.filename = "SPOILER_" + f.filename
                 extra_attachments.append(f)
+
         elif not nsfw:
             if data["thumbnail_only"]:
                 if not thumbnail_used:
                     embed.set_thumbnail(url=data["display_url"])
                     thumbnail_used = True
+
             elif not image_used:
                 embed.set_image(url=data["display_url"])
                 image_used = True
@@ -281,22 +287,21 @@ async def update_message(
         await starboard_message.edit(
             content=plain_text(orig_message, points), embed=embed
         )
-    else:
-        if points >= bot.config.starboard_limit:
-            embed, files = await embed_message(bot, orig_message)
-            msg: discord.Message = await starboard.send(
-                plain_text(orig_message, points), embed=embed, files=files
-            )
-            await bot.db.execute(
-                """UPDATE MESSAGES
+    elif points >= bot.config.starboard_limit:
+        embed, files = await embed_message(bot, orig_message)
+        msg: discord.Message = await starboard.send(
+            plain_text(orig_message, points), embed=embed, files=files
+        )
+        await bot.db.execute(
+            """UPDATE MESSAGES
                 SET starboard_message_id=?
                 WHERE id=?""",
-                (
-                    msg.id,
-                    orig_message.id,
-                ),
-            )
-            await msg.add_reaction("⭐")
+            (
+                msg.id,
+                orig_message.id,
+            ),
+        )
+        await msg.add_reaction("⭐")
 
 
 class StarboardEvents(commands.Cog):
