@@ -32,7 +32,11 @@ class YtStatistics(commands.Cog):
 
         self.bot.log("Retrieving channel stats...")
 
-        link = f"{BASE_URL}?part=statistics&id={self.bot.config.mcoding_yt_id}&key={self.bot.config.yt_api_key}"
+        link = (
+            f"{BASE_URL}?part=statistics&id={self.bot.config.mcoding_yt_id}"
+            f"&key={self.bot.config.yt_api_key}"
+        )
+
         response = requests.get(link).json()
 
         if not response:
