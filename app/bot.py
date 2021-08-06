@@ -176,7 +176,7 @@ class Bot(commands.Bot):
 
         await self.process_commands(message)
 
-    async def on_member_join(self,member: discord.Member):
+    async def on_member_join(self, member: discord.Member):
         if member.guild.id != self.config.mcoding_server_id:
             #Safe to return since this bot will not be on servers besides MCoding
             return
@@ -190,7 +190,6 @@ class Bot(commands.Bot):
         join_message = random.choice(self.config.join_messages)
         message = await channel.send(join_message.format(member=member.mention))
         await message.add_reaction( "👋")
-
 
     async def on_connect(self):
         self.log(f"Logged in as {self.user} after {time.perf_counter():,.3f}s")

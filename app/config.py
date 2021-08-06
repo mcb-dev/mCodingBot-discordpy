@@ -40,7 +40,7 @@ class Config:
             int(c) for c in env.pop("AUTOPUBLISH_USERS").split(" ")
         ]
 
-        self.join_messages = open("assets/join_messages").read().strip().split("\n")
+        self.join_messages = open("assets/join_messages").read().strip().splitlines()
 
     @classmethod
     def load(cls: Type["Config"], file: str = ".env") -> "Config":
