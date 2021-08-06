@@ -22,6 +22,8 @@ class Config:
         self.sub_count_channel = int_or_none("SUBSCRIBER_COUNT_CHANNEL")
         self.view_count_channel = int_or_none("VIEW_COUNT_CHANNEL")
 
+        self.welcome_channel = int_or_none("WELCOME_CHANNEL")
+
         self.donor_role_id = int_or_none("DONOR_ROLE")
         self.patron_role_id = int_or_none("PATRON_ROLE")
 
@@ -37,6 +39,8 @@ class Config:
         self.autopublish_user_ids = [
             int(c) for c in env.pop("AUTOPUBLISH_USERS").split(" ")
         ]
+
+        self.join_messages = open("assets/join_messages").read().strip().splitlines()
 
     @classmethod
     def load(cls: Type["Config"], file: str = ".env") -> "Config":

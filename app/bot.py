@@ -1,6 +1,7 @@
 import os
 import platform
 import time
+import random
 from datetime import datetime
 from typing import Optional
 
@@ -174,6 +175,21 @@ class Bot(commands.Bot):
             return
 
         await self.process_commands(message)
+
+    async def on_member_join(self, member: discord.Member):
+        if member.guild.id != self.config.mcoding_server_id:
+            #Safe to return since this bot will not be on servers besides MCoding
+            return
+
+        channel_id = self.config.welcome_channel
+        if channel_id is None:
+            self.log("WELCOME_CHANNEL environment variable is not defined. Member join message will not be sent.")
+            return
+
+        channel = self.get_channel(channel_id)
+        join_message = random.choice(self.config.join_messages)
+        message = await channel.send(join_message.format(member=member.mention))
+        await message.add_reaction("👋")
 
     async def on_connect(self):
         self.log(f"Logged in as {self.user} after {time.perf_counter():,.3f}s")
