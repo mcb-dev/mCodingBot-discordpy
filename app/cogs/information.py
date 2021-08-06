@@ -72,8 +72,8 @@ class Information(commands.Cog):
     @commands.cooldown(2, 5, commands.BucketType.user)
     async def ping(self, ctx):
         """Get the latency of the client converted in milliseconds.
-        An dynamically colored ball will show in the image in function of
-        the ping. Give also worst, best and daily average ping"""
+        An dynamically colored ball will show in the image in function
+        of the ping. Give also worst, best and daily average ping."""
         latencies: dict = {"API": self.bot.latency}
 
         marker: float = perf_counter()
@@ -128,7 +128,7 @@ class Information(commands.Cog):
             embed.add_field(name="> Activity", value=user.activity.name)
 
         if len(user.roles) < 50:
-            roles = ", ".join([f"{role.name}" for role in user.roles[:0:-1]])
+            roles = ", ".join(f"{role.name}" for role in user.roles[:0:-1])
         else:
             roles = "too many roles"
 

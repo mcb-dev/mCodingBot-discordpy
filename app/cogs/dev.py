@@ -67,6 +67,23 @@ class Dev(commands.Cog):
         self.bot.config = self.bot.config.load()
         await ctx.send("Done.")
 
+    @commands.command(name="reload")
+    @commands.is_owner()
+    async def reload_cogs(self, ctx: commands.Context):
+        c = 0
+
+        for cog in self.bot.cogs:
+            cog_namespaced = f'app.cogs.{cog.name}'
+
+            try:
+                self.bot.unload_extension(cog_namespaced)
+                self.bot.load_extension(cog_namespaced)
+            except Exception as e:
+                await ctx.send(f"Error while reloading {cog.name}: {e}")
+                c += 1
+
+        await ctx.send(f"Reloaded whole bot, error: {c}")
+
 
 def setup(bot: "Bot"):
     bot.add_cog(Dev(bot))
