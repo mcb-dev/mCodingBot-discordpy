@@ -189,7 +189,7 @@ class Bot(commands.Bot):
         channel = self.get_channel(channel_id)
         join_message = random.choice(self.config.join_messages)
         message = await channel.send(join_message.format(member=member.mention))
-        await message.add_reaction( "👋")
+        await message.add_reaction("👋")
 
     async def on_connect(self):
         self.log(f"Logged in as {self.user} after {time.perf_counter():,.3f}s")
