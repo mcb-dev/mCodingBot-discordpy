@@ -21,7 +21,7 @@ class MemberCount(commands.Cog):
             mc_log = int(mc_log)
         return f"2**{str(mc_log)} ({mc})"
 
-    @tasks.loop(minutes=10)
+    @tasks.loop(minutes=30)
     async def update_member_count(self):
         if not self.bot.is_ready():
             await self.bot.wait_until_ready()
