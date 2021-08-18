@@ -375,10 +375,6 @@ class StarboardEvents(commands.Cog):
         else:
             message = act_message
 
-        if message.author.id == payload.user_id:
-            # Remove self stars
-            await act_message.remove_reaction(payload.emoji, payload.member)
-            return
 
         try:
             await self.bot.db.execute(
