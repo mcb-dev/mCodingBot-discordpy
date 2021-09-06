@@ -6,6 +6,7 @@ from datetime import datetime
 from typing import Optional
 
 import discord
+import aiohttp
 from aiocache import cached
 from discord.ext import commands, prettyhelp
 
@@ -50,6 +51,7 @@ class Bot(commands.Bot):
 
         self.config = Config.load()
         self.db = Database()
+        self.session = aiohttp.ClientSession()
 
         for filename in os.listdir(os.path.join("app", "cogs")):
             if filename.endswith("py"):
