@@ -2,7 +2,6 @@ import time
 from math import log
 from typing import TYPE_CHECKING
 
-import requests
 from discord.ext import commands, tasks
 
 if TYPE_CHECKING:
@@ -25,6 +24,10 @@ class YtStatistics(commands.Cog):
         self._last_stats = {"subs": -1, "views": -1}  # DONT REMOVE THIS !
         self._last_stats = self.channel_stats
 
+    async def get_channel_stats(self, link):
+        async with self.bot.session.get(link) as res:
+            return await res.json()
+
     @property
     def channel_stats(self):
         if self._stat_update == (time.time() // 100):
@@ -37,7 +40,7 @@ class YtStatistics(commands.Cog):
             f"&key={self.bot.config.yt_api_key}"
         )
 
-        response = requests.get(link).json()
+        response = self.bot.loop.create_task(self.get_channel_stats(link))
 
         if not response:
             return self._last_stats
